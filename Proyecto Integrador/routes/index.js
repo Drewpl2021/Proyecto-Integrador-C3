@@ -2,27 +2,33 @@ var express = require('express');
 var router = express.Router();
 var dbConn = require('../lib/db');
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/login', function(req, res, next) {
-  res.render('login');
+router.get('/admin/ayuda', function (req, res, next) {
+  res.render('admin/ayuda');
+});
+router.get('/admin/docente', function (req, res, next) {
+  res.render('admin/docente');
+});
+router.get('/admin/pro', function (req, res, next) {
+  res.render('admin/pro');
 });
 
-router.get('/admin', function(req, res, next) {
+router.get('/admin', function (req, res, next) {
   if (req.session && req.session.admin) {
-    res.render('admin/index');
+    res.render('/');
   } else {
     res.render('admin/index');
   }
 });
 
-router.post('/admin', function(req, res, next) {
+router.post('/admin', function (req, res, next) {
   var users = req.body.users;
   var password = req.body.password;
-  
-  dbConn.query("SELECT * FROM usuario WHERE us_nombre='"+users+"' AND us_password='"+password+"'", function(err, rows) {
+
+  dbConn.query("SELECT * FROM usuario WHERE us_nombre='" + users + "' AND us_password='" + password + "'", function (err, rows) {
     if (err) {
       req.flash('error', err);
       console.log(err);
@@ -34,10 +40,24 @@ router.post('/admin', function(req, res, next) {
         req.session.user = rows[0]["us_nombre"];
         req.session.password = rows[0]["us_password"];
         req.session.admin = true;
-        res.redirect("/admin"); // Redirige a /admin en caso de autenticación exitosa
-      } else {
-        //req.flash('success', 'El usuario no existe');
-        res.redirect("/"); // Redirige a / en caso de autenticación fallida
+        var userRole = rows[0]["us_rol"];
+
+        switch (userRole) {
+          case "1":
+            res.render('admin/pro');
+            break
+          case "2":
+            res.render('admin/ayuda');
+            break;
+          case "3":
+            res.render('admin/index');
+            break;
+          case "4":
+            res.render('admin/docente');
+            break;
+          default:
+            res.redirect("/");
+        }
       }
     }
   });
