@@ -60,27 +60,29 @@
     <!--Login-->
     <div class="login-box" style="margin-left: 300px; height: 400px;">
       <h2 style="font-size: 25px;">Inicio de Sesión</h2>
-      <form>
+      <form action="admin" method="POST">
         <div class="user-box">
-          <input type="text" name="" required="">
+          <input type="text" name="users" id="floatingInput" required>
           <label>Usuario</label>
         </div>
         <div class="user-box">
-          <input type="password" name="" required="">
+          <input type="password" name="password" id="floatingPassword" required>
           <label>Contraseña</label>
         </div>
-        <a href="admin">
+        <a type="submit" id="" href="admin">
           <span></span>
           <span></span>
           <span></span>
           <span></span>
-          Iniciar Sesión
+          <button style="all: unset;">
+          Iniciar Sesión</button>
         </a>
-        <a class="crear btn" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
+        <a type="" id="" class="crear btn" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
           <span></span>
           <span></span>
           <span></span>
           <span></span>
+          
           Crear Cuenta</a>
       </form>
     </div>
@@ -132,14 +134,15 @@
                   id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                 <label for="genero">Género</label>
               </div>
-              <div x-show="open" @click.away="open=false" style="padding: 90px 155px; margin-bottom: -100px; margin-top: -120px;"
-                class="crearr text-center" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                <a href="#" style="margin-bottom: -30px;" role="menuitem" tabindex="-1"
-                  id="user-menu-item-0" x-on:click="generoInput.value='Masculino'; open=false">Masculino</a>
-                <a href="#" style="margin-bottom: -30px;" role="menuitem" tabindex="-1"
-                  id="user-menu-item-1" x-on:click="generoInput.value='Femenino'; open=false">Femenino</a>
-                <a href="#"  role="menuitem" tabindex="-1"
-                  id="user-menu-item-2" x-on:click="generoInput.value='Otro'; open=false">Otro</a>
+              <div x-show="open" @click.away="open=false"
+                style="padding: 90px 155px; margin-bottom: -100px; margin-top: -120px;" class="crearr text-center"
+                role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                <a href="#" style="margin-bottom: -30px;" role="menuitem" tabindex="-1" id="user-menu-item-0"
+                  x-on:click="generoInput.value='Masculino'; open=false">Masculino</a>
+                <a href="#" style="margin-bottom: -30px;" role="menuitem" tabindex="-1" id="user-menu-item-1"
+                  x-on:click="generoInput.value='Femenino'; open=false">Femenino</a>
+                <a href="#" role="menuitem" tabindex="-1" id="user-menu-item-2"
+                  x-on:click="generoInput.value='Otro'; open=false">Otro</a>
               </div>
             </div>
             <div class="user-box">
@@ -155,7 +158,8 @@
               <span></span>
               <span></span>
               <span></span>
-              Crear Cuenta</a>
+              <button style="all: unset;">
+              Crear Cuenta</button></a>
           </form>
         </div>
       </div>
@@ -166,7 +170,8 @@
 </body>
 
 </html>
-<script>
+
+
   var fechaInput = document.getElementById('fecha');
 
   fechaInput.addEventListener('focus', function () {

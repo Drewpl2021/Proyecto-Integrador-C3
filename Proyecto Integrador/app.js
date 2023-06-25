@@ -3,9 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var flash = require('express-flash');
+var session = require('express-session');
+var mysql = require('mysql');
+var connection = require('./lib/db');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var adminRouter = require('./routes/admin');
 
 var app = express();
 
@@ -21,11 +25,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/admin', adminRouter);
+
+
+
+// Configurar la sesión
+app.use(session({
+  secret: 'mysecret', // Cambia esto por una clave secreta más segura
+  resave: true,
+  saveUninitialized: true
+}));
+
+// Configurar flash y hacerlo disponible en las vistas
+app.use(flash());
+
+// ...
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+
 
 // error handler
 app.use(function(err, req, res, next) {
