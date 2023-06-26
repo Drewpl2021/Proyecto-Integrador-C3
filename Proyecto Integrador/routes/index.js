@@ -6,22 +6,21 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/admin/ayuda', function (req, res, next) {
-  res.render('admin/ayuda');
-});
-router.get('/admin/docente', function (req, res, next) {
-  res.render('admin/docente');
-});
-router.get('/admin/pro', function (req, res, next) {
-  res.render('admin/pro');
+router.get('/login', function (req, res, next) {
+  res.render('login', { title: 'Express' });
+
 });
 
-router.get('/admin', function (req, res, next) {
-  if (req.session && req.session.admin) {
-    res.render('/');
-  } else {
-    res.render('admin/index');
-  }
+router.get('/empresa', function (req, res, next) {
+  res.render('empresa/index');
+});
+
+router.get('/docente', function (req, res, next) {
+  res.render('docente/index');
+});
+
+router.get('/pro', function (req, res, next) {
+  res.render('pro/index');
 });
 
 router.post('/admin', function (req, res, next) {
@@ -36,31 +35,73 @@ router.post('/admin', function (req, res, next) {
       console.log(rows);
       if (rows.length) {
         req.session = req.session || {};
-        req.session.idu = rows[0]["us_id"];
-        req.session.user = rows[0]["us_nombre"];
-        req.session.password = rows[0]["us_password"];
-        req.session.admin = true;
-        var userRole = rows[0]["us_rol"];
+        req.session.idu         = rows[0]["us_id"];
+        req.session.user        = rows[0]["us_nombre"];
+        req.session.password    = rows[0]["us_password"];
+        req.session.admin       = true;
+        req.session.docente     = true;
+        req.session.pro         = true;
+        req.session.empresa     = true;
+        var userRole            = rows[0]["us_rol"];
 
         switch (userRole) {
           case "1":
-            res.render('admin/pro');
+            
+            res.render('pro/index');
             break
           case "2":
-            res.render('admin/ayuda');
+            res.render('empresa/index');
             break;
           case "3":
             res.render('admin/index');
             break;
           case "4":
-            res.render('admin/docente');
+            res.render('docente/index');
             break;
           default:
-            res.redirect("/");
+            res.redirect("login");
         }
       }
     }
   });
 });
 
+router.get('/admin', function (req, res, next) {
+  if (req.session && req.session.admin) {
+    
+    res.render('admin/index');
+  } else {
+    res.render('login');
+  }
+});
+
+router.get('/pro', function (req, res, next) {
+  if (req.session && req.session.pro) {
+    
+    res.render('pro/index');
+  } else {
+    res.render('login');
+  }
+});
+router.get('/empresa', function (req, res, next) {
+  if (req.session && req.session.empresa) {
+    
+    res.render('empresa/index');
+  } else {
+    res.render('login');
+  }
+});
+router.get('/docente', function (req, res, next) {
+  if (req.session && req.session.docente) {
+    
+    res.render('docente/index');
+  } else {
+    res.render('login');
+  }
+});
+
+router.get('/logout',function(req, res){
+  req.session.destroy();
+  res.redirect("/");
+});
 module.exports = router;
