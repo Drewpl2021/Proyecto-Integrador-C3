@@ -11,16 +11,13 @@ router.get('/login', function (req, res, next) {
 
 });
 
-router.get('/empresa', function (req, res, next) {
-  res.render('empresa/index');
-});
-
-router.get('/docente', function (req, res, next) {
-  res.render('docente/index');
-});
-
 router.get('/pro', function (req, res, next) {
-  res.render('pro/index');
+  if (req.session && req.session.pro) {
+
+    res.render('pro/index');
+  } else {
+    res.render('login');
+  }
 });
 
 router.post('/admin', function (req, res, next) {
@@ -35,18 +32,18 @@ router.post('/admin', function (req, res, next) {
       console.log(rows);
       if (rows.length) {
         req.session = req.session || {};
-        req.session.idu         = rows[0]["us_id"];
-        req.session.user        = rows[0]["us_nombre"];
-        req.session.password    = rows[0]["us_password"];
-        req.session.admin       = true;
-        req.session.docente     = true;
-        req.session.pro         = true;
-        req.session.empresa     = true;
-        var userRole            = rows[0]["us_rol"];
+        req.session.idu = rows[0]["us_id"];
+        req.session.user = rows[0]["us_nombre"];
+        req.session.password = rows[0]["us_password"];
+        req.session.admin = true;
+        req.session.docente = true;
+        req.session.pro = true;
+        req.session.empresa = true;
+        var userRole = rows[0]["us_rol"];
 
         switch (userRole) {
           case "1":
-            
+
             res.render('pro/index');
             break
           case "2":
@@ -58,9 +55,12 @@ router.post('/admin', function (req, res, next) {
           case "4":
             res.render('docente/index');
             break;
-          default:
-            res.redirect("login");
+          case _:
+            res.redirect("/");
         }
+
+      } else {
+        res.render("login");
       }
     }
   });
@@ -68,24 +68,17 @@ router.post('/admin', function (req, res, next) {
 
 router.get('/admin', function (req, res, next) {
   if (req.session && req.session.admin) {
-    
+
     res.render('admin/index');
   } else {
     res.render('login');
   }
 });
 
-router.get('/pro', function (req, res, next) {
-  if (req.session && req.session.pro) {
-    
-    res.render('pro/index');
-  } else {
-    res.render('login');
-  }
-});
+
 router.get('/empresa', function (req, res, next) {
   if (req.session && req.session.empresa) {
-    
+
     res.render('empresa/index');
   } else {
     res.render('login');
@@ -93,14 +86,14 @@ router.get('/empresa', function (req, res, next) {
 });
 router.get('/docente', function (req, res, next) {
   if (req.session && req.session.docente) {
-    
+
     res.render('docente/index');
   } else {
     res.render('login');
   }
 });
 
-router.get('/logout',function(req, res){
+router.get('/logout', function (req, res) {
   req.session.destroy();
   res.redirect("/");
 });
