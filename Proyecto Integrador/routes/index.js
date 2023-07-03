@@ -24,7 +24,7 @@ router.post('/admin', function (req, res, next) {
   var users = req.body.users;
   var password = req.body.password;
 
-  dbConn.query("SELECT * FROM usuario WHERE us_nombre='" + users + "' AND us_password='" + password + "'", function (err, rows) {
+  dbConn.query("SELECT * FROM usuario WHERE us_usuario='" + users + "' AND us_password='" + password + "'", function (err, rows) {
     if (err) {
       req.flash('error', err);
       console.log(err);
@@ -33,7 +33,7 @@ router.post('/admin', function (req, res, next) {
       if (rows.length) {
         req.session = req.session || {};
         req.session.idu = rows[0]["us_id"];
-        req.session.user = rows[0]["us_nombre"];
+        req.session.user = rows[0]["us_usuario"];
         req.session.password = rows[0]["us_password"];
         req.session.admin = true;
         req.session.institucion = true;
