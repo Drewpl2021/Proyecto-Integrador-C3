@@ -3,7 +3,7 @@ var connection = mysql.createConnection({
 	host:'localhost',
 	user:'root',
 	password:'',
-	database:'bd_bolsa_laboral'
+	database:'db_bolsa'
 });
 connection.connect(function(error){
 	if(!!error) {
