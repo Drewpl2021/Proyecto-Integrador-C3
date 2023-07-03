@@ -12,7 +12,7 @@ router.get('/login', function (req, res, next) {
 });
 
 router.get('/pro', function (req, res, next) {
-  if (req.session && req.session.pro) {
+  if (req.session && req.session.egresado) {
 
     res.render('pro/index');
   } else {
@@ -36,15 +36,15 @@ router.post('/admin', function (req, res, next) {
         req.session.user = rows[0]["us_nombre"];
         req.session.password = rows[0]["us_password"];
         req.session.admin = true;
-        req.session.docente = true;
-        req.session.pro = true;
+        req.session.institucion = true;
+        req.session.egresado = true;
         req.session.empresa = true;
         var userRole = rows[0]["us_rol"];
 
         switch (userRole) {
           case "1":
 
-            res.render('pro/index');
+            res.render('egresado/index');
             break
           case "2":
             res.render('empresa/index');
@@ -53,7 +53,7 @@ router.post('/admin', function (req, res, next) {
             res.render('admin/index');
             break;
           case "4":
-            res.render('docente/index');
+            res.render('institucion/index');
             break;
           case _:
             res.redirect("/");
@@ -84,10 +84,10 @@ router.get('/empresa', function (req, res, next) {
     res.render('login');
   }
 });
-router.get('/docente', function (req, res, next) {
+router.get('/institucion', function (req, res, next) {
   if (req.session && req.session.docente) {
 
-    res.render('docente/index');
+    res.render('institucion/index');
   } else {
     res.render('login');
   }
