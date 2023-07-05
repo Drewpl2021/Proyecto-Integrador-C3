@@ -92,7 +92,7 @@ router.get('/institucion', function (req, res, next) {
   }
 });
 
-router.get('egresado', function (req, res, next) {
+router.get('/egresado', function (req, res, next) {
   if (req.session && req.session.egresado) {
 
     res.render('egresado/index');
