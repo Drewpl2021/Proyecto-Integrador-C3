@@ -43,7 +43,6 @@ router.post('/admin', function (req, res, next) {
 
         switch (userRole) {
           case "1":
-
             res.render('egresado/index');
             break
           case "2":
@@ -88,6 +87,15 @@ router.get('/institucion', function (req, res, next) {
   if (req.session && req.session.docente) {
 
     res.render('institucion/index');
+  } else {
+    res.render('login');
+  }
+});
+
+router.get('/egresado', function (req, res, next) {
+  if (req.session && req.session.egresado) {
+
+    res.render('egresado/index');
   } else {
     res.render('login');
   }
