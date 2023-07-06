@@ -43,13 +43,13 @@ router.post('/admin', function (req, res, next) {
 
         switch (userRole) {
           case "1":
-            res.render('egresado/index');
+            res.render('admin/index');
             break
           case "2":
             res.render('empresa/index');
             break;
           case "3":
-            res.render('admin/index');
+            res.render('egresado/index');
             break;
           case "4":
             res.render('institucion/index');
